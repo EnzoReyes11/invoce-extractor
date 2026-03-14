@@ -1,0 +1,174 @@
+{
+    "type": "object",
+    "properties": {
+        "document_type": {
+            "type": "string",
+            "description": "The type of document, e.g., Receipt, Invoice."
+        },
+        "invoice_number": {
+            "type": "string",
+            "description": "The invoice number."
+        },
+        "receipt_number": {
+            "type": "string",
+            "description": "The receipt number."
+        },
+        "date_issued": {
+            "type": "string",
+            "description": "The date the receipt was issued."
+        },
+        "date_paid": {
+            "type": "string",
+            "description": "The date the payment was made."
+        },
+        "issuer": {
+            "type": "object",
+            "description": "The issuer of the receipt.",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of the issuer of the receipt."
+                },
+                "address": {
+                    "type": "string",
+                    "description": "The address of the issuer."
+                },
+                "email": {
+                    "type": "string",
+                    "description": "The email address of the issuer."
+                },
+                "phone": {
+                    "type": "string",
+                    "description": "The phone number of the issuer."
+                }
+            }
+        },
+        "bill_to": {
+            "type": "object",
+            "description": "The entity being billed.",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of the entity being billed."
+                },
+                "address": {
+                    "type": "string",
+                    "description": "The billing address."
+                },
+                "email": {
+                    "type": "string",
+                    "description": "The email address of the billing entity."
+                }
+            }
+        },
+        "shipping_information": {
+            "type": "object",
+            "description": "The shipping information for the receipt.",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of the entity being billed."
+                },
+                "address": {
+                    "type": "string",
+                    "description": "The billing address."
+                },
+                "email": {
+                    "type": "string",
+                    "description": "The email address of the billing entity."
+                },
+                "method": {
+                    "type": "string",
+                    "description": "The method of shipping."
+                }
+            }
+        },
+        "payment_method": {
+            "type": "object",
+            "description": "The payment information.",
+            "properties": {
+                "method": {
+                    "type": "string",
+                    "description": "The payment method used.",
+                    "enum": [
+                        "Cash",
+                        "Credit Card",
+                        "Debit Card",
+                        "PayPal",
+                        "Bank Transfer",
+                        "Other"
+                    ]
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the entity making the payment."
+                }
+            }
+        },
+        "overall_subtotal": {
+            "type": "string",
+            "description": "The subtotal amount for the entire transaction."
+        },
+        "overall_total": {
+            "type": "string",
+            "description": "The total amount for the entire transaction."
+        },
+        "overall_amount_paid": {
+            "type": "string",
+            "description": "The total amount paid for the entire transaction."
+        },
+        "discount": {
+            "type": "string",
+            "description": "The discount amount for the entire transaction."
+        },
+        "line_items": {
+            "type": "array",
+            "description": "Details of each item or charge.",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string",
+                        "description": "Description of the item or charge."
+                    },
+                    "quantity": {
+                        "type": "string",
+                        "description": "Quantity of the item."
+                    },
+                    "unit_price": {
+                        "type": "string",
+                        "description": "Price per unit of the item."
+                    },
+                    "amount": {
+                        "type": "string",
+                        "description": "Total amount for this line item."
+                    },
+                    "additional_comments": {
+                        "type": "string",
+                        "description": "Any notes or comments about this item."
+                    }
+                },
+                "required": [
+                    "description",
+                    "quantity",
+                    "unit_price",
+                    "amount"
+                ]
+            }
+        }
+    },
+    "required": [
+        "document_type",
+        "invoice_number",
+        "receipt_number",
+        "date_paid",
+        "issuer_name",
+        "issuer_address",
+        "bill_to_name",
+        "bill_to_address",
+        "line_items",
+        "overall_subtotal",
+        "overall_total",
+        "overall_amount_paid"
+    ]
+}
