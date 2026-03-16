@@ -12,6 +12,9 @@ product description with actual product items.
 - Using Pydantic objects now, instead of the JSON Schema. 
 - Updated the schema and the prompt to enforce some types and to account for more specific data.
 
+## 2026-03-15
+- Trying Speckit. Moved the Agent to old_agent. The new agent uses GCP products in its pipeline, and terraform to put the pipeline in place.
+
 ## Next steps:
 - Think how to make it work with Claro.  Maybe have a validating Agent the determines problematic documents and uses a different approach to extract data.
 Like a custom extractor for Claro.

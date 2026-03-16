@@ -14,3 +14,7 @@ wheels/
 *.adk
 *.claude
 *.specify
+
+# Terraform
+*.terraform
+*.tfstate
