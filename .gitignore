@@ -1,13 +1,52 @@
-# Python-generated files
-__pycache__/
-*.py[oc]
-build/
+# Dependencies
+**/node_modules/
+**/venv/
+**/__pycache__/
+*.pyc
+
+# Build output
 dist/
-wheels/
-*.egg-info
+build/
+out/
 
-# Virtual environments
-.venv
+# Environment
+.env
+*.env.*
+!.env.example
 
-*.env
-*.pdf
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Agents
+.claude/
+.agents/
+.agent/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform.lock.hcl
+backend.hcl
+**/backend.hcl
+
+# Terraform plugin cache
+.terraform.d/
+
+# Python
+__pycache__/
+*.py[cod]
+*.class
+*.zip
+
+# Secrets
+*.pem
+*.key
+credentials.json
