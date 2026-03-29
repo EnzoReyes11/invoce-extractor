@@ -64,3 +64,10 @@ wheels/
 
 *.env
 *.pdf
+*.adk
+*.claude
+*.specify
+
+# Terraform
+*.terraform
+*.tfstate

@@ -1,0 +1,132 @@
+{
+    "type": "object",
+    "description": "Flexible schema for parsing receipts, invoices, and charges from any provider.",
+    "properties": {
+        "document_type": {
+            "type": "string",
+            "description": "The type of document.",
+            "enum": ["Receipt", "Invoice", "Credit Note", "Order Confirmation", "Subscription", "Other"]
+        },
+        "document_number": {
+            "type": "string",
+            "description": "Unique document identifier: invoice number, receipt number, order ID, etc."
+        },
+        "date_issued": {
+            "type": "string",
+            "description": "Date the document was issued, ISO 8601 format (YYYY-MM-DD)."
+        },
+        "date_due": {
+            "type": "string",
+            "description": "Payment due date, ISO 8601 format (YYYY-MM-DD). Relevant for invoices."
+        },
+        "date_paid": {
+            "type": "string",
+            "description": "Date payment was made, ISO 8601 format (YYYY-MM-DD)."
+        },
+        "billing_period": {
+            "type": "object",
+            "description": "Billing period for subscriptions, telco, or utilities.",
+            "properties": {
+                "start": { "type": "string", "description": "Billing period start date, ISO 8601 format (YYYY-MM-DD)." },
+                "end": { "type": "string", "description": "Billing period end date, ISO 8601 format (YYYY-MM-DD)." }
+            }
+        },
+        "currency": {
+            "type": "string",
+            "description": "ISO 4217 currency code, e.g., USD, EUR, ARS."
+        },
+        "issuer": {
+            "type": "object",
+            "description": "The entity issuing the document.",
+            "properties": {
+                "name": { "type": "string", "description": "The name of the issuer." },
+                "tax_id": { "type": "string", "description": "VAT number, CUIT, EIN, or equivalent tax identifier." },
+                "address": { "type": "string", "description": "The address of the issuer." },
+                "email": { "type": "string", "description": "The email address of the issuer." },
+                "phone": { "type": "string", "description": "The phone number of the issuer." },
+                "website": { "type": "string", "description": "The website of the issuer." }
+            },
+            "required": ["name"]
+        },
+        "bill_to": {
+            "type": "object",
+            "description": "The entity being billed.",
+            "properties": {
+                "name": { "type": "string", "description": "The name of the entity being billed." },
+                "tax_id": { "type": "string", "description": "Tax ID of the billed entity." },
+                "address": { "type": "string", "description": "The billing address." },
+                "email": { "type": "string", "description": "The email address of the billing entity." },
+                "account_number": { "type": "string", "description": "Customer or account number at the provider." }
+            }
+        },
+        "shipping_information": {
+            "type": "object",
+            "description": "Shipping details, if applicable.",
+            "properties": {
+                "recipient": { "type": "string", "description": "The name of the recipient." },
+                "address": { "type": "string", "description": "The shipping address." },
+                "method": { "type": "string", "description": "The method of shipping." },
+                "tracking_number": { "type": "string", "description": "Shipment tracking number." }
+            }
+        },
+        "payment_method": {
+            "type": "object",
+            "description": "Payment information.",
+            "properties": {
+                "method": {
+                    "type": "string",
+                    "description": "High-level payment method category.",
+                    "enum": ["Cash", "Credit Card", "Debit Card", "Bank Transfer", "Digital Wallet", "Store Credit", "Gift Card", "Crypto", "Other"]
+                },
+                "name": { "type": "string", "description": "Specific provider or wallet name, e.g., Mercado Pago, Apple Pay, Visa." },
+                "card_last_four": { "type": "string", "description": "Last 4 digits of the card, used for bank reconciliation." },
+                "card_brand": { "type": "string", "description": "Card brand: Visa, Mastercard, Amex, etc." },
+                "transaction_id": { "type": "string", "description": "Transaction or authorization ID." }
+            }
+        },
+        "line_items": {
+            "type": "array",
+            "description": "Individual items or charges on the document.",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "description": { "type": "string", "description": "Description of the item or charge." },
+                    "sku": { "type": "string", "description": "Product code or SKU." },
+                    "quantity": { "type": "number", "description": "Quantity of the item." },
+                    "unit": { "type": "string", "description": "Unit of measure: unit, kg, L, GB, hour, etc." },
+                    "unit_price": { "type": "number", "description": "Price per unit in document currency." },
+                    "discount": { "type": "number", "description": "Discount amount applied to this line item." },
+                    "total": { "type": "number", "description": "Total amount for this line item in document currency." },
+                    "notes": { "type": "string", "description": "Any notes or comments about this item." }
+                },
+                "required": ["description", "total"]
+            }
+        },
+        "taxes": {
+            "type": "array",
+            "description": "Tax breakdown lines.",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": { "type": "string", "description": "Tax name or type, e.g., VAT 21%, GST, IVA." },
+                    "rate": { "type": "number", "description": "Tax rate as a percentage, e.g., 21.0 for 21%." },
+                    "amount": { "type": "number", "description": "Tax amount in document currency." }
+                },
+                "required": ["name", "amount"]
+            }
+        },
+        "overall_subtotal": { "type": "number", "description": "Pre-tax, pre-discount total." },
+        "overall_discount": { "type": "number", "description": "Total discount applied." },
+        "overall_tax": { "type": "number", "description": "Total tax amount." },
+        "overall_total": { "type": "number", "description": "Final total after taxes and discounts." },
+        "overall_amount_paid": { "type": "number", "description": "Amount actually paid." },
+        "outstanding_balance": { "type": "number", "description": "Remaining amount due, if any." },
+        "tags": {
+            "type": "array",
+            "description": "Free-form hints inferred from the document, e.g., subscription, monthly, recurring.",
+            "items": { "type": "string" }
+        },
+        "notes": { "type": "string", "description": "Any additional remarks or terms on the document." }
+    },
+    "required": ["document_type", "currency", "issuer", "line_items", "overall_total"]
+}

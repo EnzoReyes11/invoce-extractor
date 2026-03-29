@@ -1,9 +1,19 @@
-2026-03-13
+# PDF Extractor Worklog
+
+## 2026-03-13
 Created an invoice extractor. It will extract a JSON from a pdf invoice, reciept, etc.
 It's very basic. It uses a pre defined JSON Schema as a template.
 
 I know already that for Claro invoices, it's not functioning very well. The line items are not extracted correctly, it confuses
 product description with actual product items.
+
+## 2026-03-14
+- The tools is able to extract data from pfds and image files.
+- Using Pydantic objects now, instead of the JSON Schema. 
+- Updated the schema and the prompt to enforce some types and to account for more specific data.
+
+## 2026-03-15
+- Trying Speckit. Moved the Agent to old_agent. The new agent uses GCP products in its pipeline, and terraform to put the pipeline in place.
 
 ## Next steps:
 - Think how to make it work with Claro.  Maybe have a validating Agent the determines problematic documents and uses a different approach to extract data.
